@@ -1,45 +1,48 @@
-<div class="border1">
-    <svg id="canvas" style="border: 3px solid black; width: 768px; height: 512px;"></svg>
+<div id="canvas-main">
+    <div class="border1">
+        <svg id="canvas" style="border: 3px solid black; width: 768px; height: 512px;"></svg>
+    </div>
+    <div class="canvas-menu">
+        <svg id="minimap" style="border: 1px solid red;">
+        </svg>
+        <div>
+            Terrain:
+            <select ng-model="selected_group" ng-change="change_group()">
+                <option ng-repeat="g in terrain_groups" value="{{g}}">{{g}}</option>
+            </select>
+            <ul ng-repeat="t in terrain_in_group">
+                <li>
+                    <div class="select_terrain">
+                        <img src="sprites/{{t}}.png">
+                        <a href="#" ng-click="select_terrain(t)">{{t}}</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <input type="text" ng-model="write_name"/>
+        <input type="submit" ng-click="write_text()" value="Write text"/>
+        <table>
+            <tr>
+                <td>
+                    <a href="#">
+                    <img src="css/go_west.png" ng-click="go_west();"/>
+                    </a>
+                </td>
+                <td>
+                    <a href="#">
+                    <img src="css/go_north.png" ng-click="go_north();"/>
+                    </a>
+                </td>
+                <td>
+                    <a href="#">
+                    <img src="css/go_south.png" ng-click="go_south();"/>
+                    </a>
+                </td>
+                <td>
+                    <a href="#">
+                    <img src="css/go_east.png" ng-click="go_east();"/>
+                    </a>
+                </td>
+        </table>
+    </div>
 </div>
-
-<svg id="minimap" style="border: 1px solid red;">
-</svg>
-<div>
-    Terrain:
-    <select ng-model="selected_group" ng-change="change_group()">
-        <option ng-repeat="g in terrain_groups" value="{{g}}">{{g}}</option>
-    </select>
-    <ul ng-repeat="t in terrain_in_group">
-        <li>
-            <div class="select_terrain">
-                <img src="sprites/{{t}}.png">
-                <a href="#" ng-click="select_terrain(t)">{{t}}</a>
-            </div>
-        </li>
-    </ul>
-</div>
-<input type="text" ng-model="write_name"/>
-<input type="submit" ng-click="write_text()" value="Write text"/>
-<table>
-    <tr>
-        <td>
-            <a href="#">
-            <img src="css/go_west.png" ng-click="go_west();"/>
-            </a>
-        </td>
-        <td>
-            <a href="#">
-            <img src="css/go_north.png" ng-click="go_north();"/>
-            </a>
-        </td>
-        <td>
-            <a href="#">
-            <img src="css/go_south.png" ng-click="go_south();"/>
-            </a>
-        </td>
-        <td>
-            <a href="#">
-            <img src="css/go_east.png" ng-click="go_east();"/>
-            </a>
-        </td>
-</table>

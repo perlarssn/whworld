@@ -11,17 +11,33 @@
     </head>
     <body>
         <div id="main"/>
-            <table id="main-menu">
-                <tr>
-                    <td>
+            <div>
+                <div id="main-menu">
+                    <div class="main-menu-item">
+                        &#9672;
                         <a ui-sref="start">Start</a>
-                        <a ui-sref="canvas">Canvas</a>
+                    </div>
+                    <div class="main-menu-item">
+                        &#9672;
+                        <a ui-sref="canvas">Editor</a>
+                    </div>
+                    <div class="main-menu-item">
+                        &#9672;
                         <a ui-sref="map">World Map</a>
-                        <a ui-sref="scenario">Scenario Generator</a>
-                        <a ui-sref="save">Save</a>
-                </tr>
-            </table>
-            <div ui-view></div>
+                    </div>
+                    <div class="main-menu-item">
+                        &#9672;
+                        <a ui-sref="scenario">Battle</a>
+                    </div>
+                    <div class="main-menu-item">
+                        &#9672;
+                        <a ui-sref="save">Settings</a>
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                <div ui-view></div>
+            </div>
         </div>
     </body>
 </html>
