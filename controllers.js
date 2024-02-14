@@ -220,7 +220,7 @@ var mypixels = Array(0);
     }));
 }
 
-function svg_viewport(width, height) {
+function svg_viewport($scope, width, height) {
     var svg = document.getElementById("canvas");
     var pt = svg.createSVGPoint();
 
@@ -232,11 +232,44 @@ function svg_viewport(width, height) {
     var prev_x = 0;
     var prev_y = 0;
 
-    svg.addEventListener('mousemove',function(evt){
-        var redraw = function() {
-            draw_svg(viewport);
-            draw_minimap();
+    var redraw = function() {
+        draw_svg(viewport);
+        draw_minimap();
+    }
+
+    $scope.go_north = function() {
+        if (canvas_y > 0) {
+            viewport = new_viewport(world, canvas_x, --canvas_y, 
+                VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+            redraw();
         }
+    }
+
+    $scope.go_south = function() {
+        if (canvas_y + VIEWPORT_HEIGHT < world.height) {
+            viewport = new_viewport(world, canvas_x, ++canvas_y, 
+                VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+            redraw();
+        }
+    }
+
+    $scope.go_east = function() {
+        if (canvas_x + VIEWPORT_WIDTH < world.width) {
+            viewport = new_viewport(world, ++canvas_x, canvas_y, 
+                VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+            redraw();
+        }
+    }
+
+    $scope.go_west = function() {
+        if (canvas_x > 0) {
+            viewport = new_viewport(world, canvas_x--, canvas_y, 
+                VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+            redraw();
+        }
+    }
+
+    svg.addEventListener('mousemove',function(evt){
 
         var loc = cursorPoint(evt);
         var x = Math.floor(loc.x / CANVAS_TILE_SIZE);
@@ -244,29 +277,13 @@ function svg_viewport(width, height) {
 
         if (prev_x != x || prev_y != y) {
             if (loc.y >= 512-20) {
-                if (canvas_y + VIEWPORT_HEIGHT < world.height) {
-                    viewport = new_viewport(world, canvas_x, ++canvas_y, 
-                        VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                    redraw();
-                }
+                $scope.go_south();
             } else if (loc.y <= 20) {
-                if (canvas_y > 0) {
-                    viewport = new_viewport(world, canvas_x, --canvas_y, 
-                        VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                    redraw();
-                }
+                $scope.go_north();
             } else if (loc.x >= 768-20) {
-                if (canvas_x + VIEWPORT_WIDTH < world.width) {
-                    viewport = new_viewport(world, ++canvas_x, canvas_y, 
-                        VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                    redraw();
-                }
+                $scope.go_east();
             } else if (loc.x < 20) {
-                if (canvas_x > 0) {
-                    viewport = new_viewport(world, canvas_x--, canvas_y, 
-                        VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                    redraw();
-                }
+                $scope.go_west();
             }
 
             if (prev_x >= 0 && prev_y >= 0) {
@@ -410,7 +427,7 @@ angular.module('WhWorld')
         insert_value = type;
     }
 
-    svg_viewport();
+    svg_viewport($scope);
 })
 .controller('TerrainController', function($scope){
     $scope.list = DEFAULT_TERRAIN;
