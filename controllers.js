@@ -133,7 +133,7 @@ insert_value = 'grassland';
 
 
 
-function draw_minimap() {
+function draw_minimap(rect_x, rect_y) {
 var mypixels = Array(0);
 
  function createImage(pixels) {
@@ -211,8 +211,8 @@ var mypixels = Array(0);
     var g = svg_node('g');
     svg.appendChild(g);
     svg.appendChild(svg_node('rect', {
-        x: 300 * canvas_x / world.width,
-        y: 300 * ratio * canvas_y / world.height,
+        x: 300 * rect_x / world.width,
+        y: 300 * ratio * rect_y / world.height,
         width: 300 * VIEWPORT_WIDTH/world.width,
         height: 300 * ratio * VIEWPORT_HEIGHT/world.height,
         fill: 'rgba(0,0,0,0)',
@@ -234,7 +234,7 @@ function svg_viewport($scope, width, height) {
 
     var redraw = function() {
         draw_svg(viewport);
-        draw_minimap();
+        draw_minimap(canvas_x, canvas_y);
     }
 
     $scope.go_north = function() {
@@ -824,6 +824,7 @@ angular.module('WhWorld')
 
         var selected = valid[Math.floor(Math.random() * valid.length)];
         draw_svg(selected);
+        draw_minimap(selected.x, selected.y);
         console.log();
     }
 })
