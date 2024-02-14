@@ -16,7 +16,7 @@ body {
 
 a {
     text-decoration:none;
-    color: black;
+    color: #fcd600;
 }
 
 .select_terrain {
@@ -36,12 +36,13 @@ a {
     height: 64px;
     line-height: 64px;
     font-size: 32px;
-    background-image: url(css/horizontalborder.png);
+    background-image: url(css/horizontalborder2.png);
 }
 
 .main-menu-item {
     margin-left: 40px;
     float: left;
+    color: #fcd600;
 }
 
 #main {
