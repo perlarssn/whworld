@@ -17,7 +17,7 @@ VIEWPORT_WIDTH=12;
 VIEWPORT_HEIGHT=8;
 canvas_x = 8;
 canvas_y = 8;
-WORLDMAP_TILE_SIZE = 32;
+WORLDMAP_TILE_SIZE = 48;
 CANVAS_TILE_SIZE = 64;
 
 world = null;
