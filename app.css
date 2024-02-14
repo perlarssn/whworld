@@ -1,0 +1,59 @@
+body {
+    font-family: Canterbury;
+    font-size: 26px;
+    background-image: url("css/background.png");
+}
+
+@font-face {
+    font-family: Canterbury;
+    src: url(css/CanterburyRegular-MVqn.ttf);
+}
+
+@font-face {
+    font-family: Elatina;
+    src: url(css/AAntaraDistance-OVA2e.ttf);
+}
+
+a {
+    text-decoration:none;
+    color: red;
+}
+
+.select_terrain {
+    font-size: 16px;
+}
+
+.select_terrain img {
+    width: 16px;
+    height: 16px;
+}
+
+#main-menu {
+    font-size: 32px;
+    color: red;
+    font-family: sans-serif;
+}
+
+#main {
+    margin-top: 60px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 10px;
+    max-width: 1280px;
+    border-image: url("css/horizontalborder.png") 27 / 36px 28px 18px 8px / 36px 28px 18px 8px round;
+    background-color: rgb(223, 228, 226);
+}
+
+.border1 {
+    padding: 1px;
+    border: 3px solid black;
+    width: 774px;
+    height: 516px;
+    float: left;
+}
+
+#intro_text {
+    margin-right: auto;
+    margin-left: auto;
+    width: 500px;
+}

@@ -1,0 +1,57 @@
+<table>
+    <tr>
+        <td>
+            Minimum number of types of terrain:
+        </td>
+        <td>
+            <input type="text" ng-model="min_unique_terr"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Minimum obstructed terrain (%):
+        </td>
+        <td>
+            <input type="text" ng-model="min_ob_terr"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Maximum obstructed terrain (%):
+        </td>
+        <td>
+            <input type="text" ng-model="max_ob_terr"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Maximum obstructed deployment zone (%):
+        </td>
+        <td>
+            <input type="text" ng-model="max_ob_dz"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Maximum obstructed center (%):
+        </td>
+        <td>
+            <input type="text" ng-model="max_ob_center"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Allow rivers
+        </td>
+        <td>
+            <input type="checkbox" ng-model="allow_rivers"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input ng-click="generate()" type="submit" value="Generate"/>
+        </td>
+    </tr>
+</table>
+<svg id="canvas" style="border: 1px solid red; width: 768px; height: 512px;">
+</svg>

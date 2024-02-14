@@ -1,0 +1,21 @@
+<div class="border1">
+    <svg id="canvas" style="border: 3px solid black; width: 768px; height: 512px;"></svg>
+</div>
+
+<svg id="minimap" style="border: 1px solid red;">
+</svg>
+<div>
+    <select ng-model="selected_group" ng-change="change_group()">
+        <option ng-repeat="g in terrain_groups" value="{{g}}">{{g}}</option>
+    </select>
+    <ul ng-repeat="t in terrain_in_group">
+        <li>
+            <div class="select_terrain">
+                <img src="sprites/{{t}}.png">
+                <a href="#" ng-click="select_terrain(t)">{{t}}</a>
+            </div>
+        </li>
+    </ul>
+</div>
+<input type="text" ng-model="write_name"/>
+<input type="submit" ng-click="write_text()" value="Write text"/>
