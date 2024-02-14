@@ -166,8 +166,16 @@ var mypixels = Array(0);
             mypixels[h][g] = '#000';
         }
 
-        if (object == 'tree') {
-            mypixels[h][g] = '#107C10';
+        if (object) {
+            object = object.split("_")[0];
+
+            if (object == 'tree') {
+                mypixels[h][g] = '#107C10';
+            } else if (object == 'river') {
+                mypixels[h][g] = '#00F';
+            } else if (object == 'road') {
+                mypixels[h][g] = '#996600';
+            }
         }
     }
   }
