@@ -26,7 +26,7 @@ if (localStorage["world"]) {
 }
 
 if (!world) {
-    world = new_world(96, 64);
+    world = DEFAULT_WORLD;
 }
 
 viewport = new_viewport(world, canvas_x, canvas_y, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
@@ -328,13 +328,6 @@ function terrain_object(name, group) {
 }
 
 var DEFAULT_TERRAIN = {
-    river_1: terrain_object("river_1", "rivers"),
-    river_2: terrain_object("river_2", "rivers"),
-    river_3: terrain_object("river_3", "rivers"),
-    river_4: terrain_object("river_4", "rivers"),
-    river_5: terrain_object("river_5", "rivers"),
-    river_6: terrain_object("river_6", "rivers"),
-    river_7: terrain_object("river_7", "rivers"),
     tree: terrain_object("tree", "trees"),
     tree_2: terrain_object("tree_2", "trees"),
     tree_3: terrain_object("tree_3", "trees"),
@@ -343,11 +336,24 @@ var DEFAULT_TERRAIN = {
     farm_house: terrain_object("farm_house", "farms"),
     farm_haystack: terrain_object("farm_haystack", "farms"),
     sacredoak: terrain_object("sacredoak", "landmarks"),
-    rocks: terrain_object("rocks"),
+    rocks: terrain_object("rocks", "mountains"),
     hill_2: terrain_object("hill_2", "hills"),
     hill_3: terrain_object("hill_3", "hills"),
     hill_1: terrain_object("hill_1", "hills"),
-    road_1: terrain_object("road_1", "roads")
+    road_cr: terrain_object("road_cr", "roads"),
+    road_ne: terrain_object("road_ne", "roads"),
+    road_nw: terrain_object("road_nw", "roads"),
+    road_ns: terrain_object("road_ns", "roads"),
+    road_se: terrain_object("road_se", "roads"),
+    road_we: terrain_object("road_we", "roads"),
+    road_sw: terrain_object("road_sw", "roads"),
+    river_wading: terrain_object("river_wading", "rivers"),
+    river_ne: terrain_object("river_ne", "rivers"),
+    river_nw: terrain_object("river_nw", "rivers"),
+    river_ns: terrain_object("river_ns", "rivers"),
+    river_se: terrain_object("river_se", "rivers"),
+    river_we: terrain_object("river_we", "rivers"),
+    river_sw: terrain_object("river_sw", "rivers")
 }
 
 angular.module('WhWorld')
@@ -776,12 +782,13 @@ angular.module('WhWorld')
         return valid;
     }
 
-    $scope.min_unique_terr = 2;
+    $scope.selected_group = "trees";
+    $scope.min_unique_terr = 1;
     $scope.min_ob_terr = 0.05;
     $scope.max_ob_terr = 0.6;
     $scope.max_ob_dz = 0.1;
     $scope.allow_rivers = false;
-    $scope.max_ob_center = 0.1;
+    $scope.max_ob_center = 0.2;
 
     $scope.generate = function() {
         var valid = find_viewports($scope.max_ob_terr, $scope.min_ob_terr, $scope.min_unique_terr)

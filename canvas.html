@@ -5,6 +5,7 @@
 <svg id="minimap" style="border: 1px solid red;">
 </svg>
 <div>
+    Terrain:
     <select ng-model="selected_group" ng-change="change_group()">
         <option ng-repeat="g in terrain_groups" value="{{g}}">{{g}}</option>
     </select>
