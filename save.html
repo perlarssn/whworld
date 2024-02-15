@@ -1,4 +1,7 @@
-<input type="submit" ng-click="delete_world()" value="Delete world"/>
+<select ng-model="selected_world" ng-change="select_world()">
+    <option ng-repeat="w in worlds" value="{{w}}">{{w}}</option>
+</select>
+<input type="submit" ng-click="new_world()" value="New world"/>
 <textarea>
     {{printed_world}}
 </textarea>

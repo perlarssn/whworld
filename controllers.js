@@ -26,9 +26,32 @@ canvas_y = 8;
 WORLDMAP_TILE_SIZE = 48;
 CANVAS_TILE_SIZE = 64;
 
+function save_world() {
+    var worlds = JSON.parse(localStorage["worlds"]);
+    worlds[world.name] = world;
+    localStorage["worlds"] = JSON.stringify(worlds);
+}
+
+if (!localStorage["worlds"]) {
+    localStorage["worlds"] = "{}";
+}
+
 world = null;
 if (localStorage["world"]) {
     world = JSON.parse(localStorage["world"]);
+    var worlds = JSON.parse(localStorage["worlds"]);
+    worlds.default = world;
+    localStorage["worlds"] = JSON.stringify(worlds);
+    delete localStorage["world"];
+}
+
+if (localStorage["worlds"] != "{}") {
+    var worlds = JSON.parse(localStorage["worlds"]);
+    var names = Object.keys(worlds);
+
+    if (!world) {
+        world = worlds[names[0]];
+    }
 }
 
 if (!world) {
@@ -37,6 +60,10 @@ if (!world) {
 
 if (!world.tileset) {
     world.tileset = TILESET_FANTASY;
+}
+
+if (!world.name) {
+    world.name = 'default';
 }
 
 viewport = new_viewport(world, canvas_x, canvas_y, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
@@ -339,7 +366,7 @@ function svg_viewport($scope, width, height) {
             world.rows[viewport.y + prev_y][viewport.x + prev_x].object = insert_value;
         }
 
-        localStorage["world"] = JSON.stringify(world);
+        save_world();
     });
 
     draw_svg(viewport);
@@ -366,7 +393,7 @@ angular.module('WhWorld')
             world.rows[viewport.y + 4][viewport.x + 4]);
         world.rows[viewport.y + 4][viewport.x + 4].text = $scope.write_name;
 
-        localStorage["world"] = JSON.stringify(world);
+        save_world();
     }
 
     $scope.terrain = {}
@@ -802,10 +829,22 @@ angular.module('WhWorld')
     }
 })
 .controller('SaveController', function($scope){
+    var worlds = JSON.parse(localStorage["worlds"]);
+    $scope.selected_world = world.name;
+    $scope.worlds = Object.keys(worlds);
+
     $scope.printed_world = JSON.stringify(world);
-    $scope.delete_world = function() {
+
+    $scope.select_world = function() {
+        var worlds = JSON.parse(localStorage["worlds"]);
+        world = worlds[$scope.selected_world];
+    }
+
+    $scope.new_world = function() {
         world = new_world(96, 64);
-        localStorage["world"] = JSON.stringify(world);
+        world.name = "world #" + Math.floor(Math.random() * 100);
+        world.tileset = "fantasy";
+        save_world();
     }
 })
 .controller('StartController', function($scope){
