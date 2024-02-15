@@ -1,7 +1,41 @@
-<select ng-model="selected_world" ng-change="select_world()">
-    <option ng-repeat="w in worlds" value="{{w}}">{{w}}</option>
-</select>
-<input type="submit" ng-click="new_world()" value="New world"/>
+<table>
+    <tr>
+        <td>
+            Select world:
+        </td>
+        <td>
+            <select ng-model="selected_world" ng-change="select_world()">
+                <option ng-repeat="w in worlds" value="{{w}}">{{w}}</option>
+            </select>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+        </td>
+        <td>
+            Tileset
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Create new world:
+        </td>
+        <td>
+            <select ng-model="selected_tileset">
+                <option value="fantasy">Fantasy</option>
+                <option value="future">Future</option>
+                <option value="space">Space</option>
+            </select>
+        </td>
+        <td>
+            <input type="submit" ng-click="new_world()" value="Create"/>
+        </td>
+    </tr>
+</table>
 <textarea>
     {{printed_world}}
 </textarea>

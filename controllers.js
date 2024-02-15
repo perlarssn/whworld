@@ -74,7 +74,7 @@ function new_world(size_x, size_y) {
     for (var r = 0; r < size_y; r++) {
         var row = [];
         for (var c = 0; c < size_x; c++) {
-            row.push(JSON.parse(JSON.stringify(tile("grassland"))));
+            row.push(JSON.parse(JSON.stringify(tile("default"))));
         }
         rows.push(row);
     }
@@ -163,7 +163,7 @@ function draw_svg(viewport) {
 }
 
 insert_type = 'ground';
-insert_value = 'grassland';
+insert_value = 'default';
 
 
 function draw_minimap(rect_x, rect_y) {
@@ -191,7 +191,9 @@ var mypixels = Array(0);
         var bg = world.rows[h][g].bg;
         var object = world.rows[h][g].object;
 
-        if (bg == 'grassland') {
+        if (bg == 'default') {
+            mypixels[h][g] = '#0F0';
+        } else if (bg == 'grassland') {
             mypixels[h][g] = '#0F0';
         } else if (bg == 'water') {
             mypixels[h][g] = '#00F';
@@ -843,7 +845,7 @@ angular.module('WhWorld')
     $scope.new_world = function() {
         world = new_world(96, 64);
         world.name = "world #" + Math.floor(Math.random() * 100);
-        world.tileset = "fantasy";
+        world.tileset = $scope.selected_tileset;
         save_world();
     }
 })

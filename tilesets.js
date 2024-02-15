@@ -9,6 +9,12 @@ function terrain_object(name, group) {
 }
 
 var DEFAULT_TERRAIN = {
+    space: {
+        rock_1: terrain_object("rock", "rocks")
+    },
+    future: {
+        crater: terrain_object("crater", "craters")
+    },
     fantasy: {
         tree: terrain_object("tree", "trees"),
         tree_2: terrain_object("tree_2", "trees"),
