@@ -13,7 +13,7 @@
             <ul ng-repeat="t in terrain_in_group">
                 <li>
                     <div class="select_terrain">
-                        <img src="sprites/{{t}}.png">
+                        <img src="{{find_sprite(t)}}">
                         <a href="#" ng-click="select_terrain(t)">{{t}}</a>
                     </div>
                 </li>
