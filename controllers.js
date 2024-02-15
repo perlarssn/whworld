@@ -415,8 +415,26 @@ angular.module('WhWorld')
     $scope.terrain_groups = Object.keys(groups);
     $scope.terrain_in_group = [];
     $scope.selected_group = undefined;
+
     $scope.change_group = function() {
-            $scope.terrain_in_group = $scope.terrain[$scope.selected_group];
+        var all = $scope.terrain[$scope.selected_group];
+        var table = [];
+
+        var row = 0;
+        for (var i=1; i<=all.length; i++) {
+            if (!table[row]) {
+                table[row] = [];
+            }
+
+            var k = all[i-1];
+            table[row].push(k);
+
+            if (i % 3 == 0) {
+                row++;
+            }
+        }
+
+        $scope.terrain_in_group = table;
     }
 
     $scope.grounds = ['space', 'water', 'grassland'];

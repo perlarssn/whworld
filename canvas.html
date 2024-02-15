@@ -10,14 +10,17 @@
             <select ng-model="selected_group" ng-change="change_group()">
                 <option ng-repeat="g in terrain_groups" value="{{g}}">{{g}}</option>
             </select>
-            <ul ng-repeat="t in terrain_in_group">
-                <li>
-                    <div class="select_terrain">
-                        <img src="{{find_sprite(t)}}">
-                        <a href="#" ng-click="select_terrain(t)">{{t}}</a>
-                    </div>
-                </li>
-            </ul>
+            <table>
+                <tr ng-repeat="row in terrain_in_group">
+                    <td ng-repeat="t in row">
+                        <div class="select_terrain">
+                            <a href="#" ng-click="select_terrain(t)">
+                                <img src="{{find_sprite(t)}}" alt="{{t}}">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         <input type="text" ng-model="write_name"/>
         <input type="submit" ng-click="write_text()" value="Write text"/>
