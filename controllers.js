@@ -18,12 +18,12 @@ function copy_tile(tile) {
     }
 }
 
-WORLD_SCALE = 4;
+WORLD_SCALE = 8;
 VIEWPORT_WIDTH=12;
 VIEWPORT_HEIGHT=8;
 canvas_x = 8;
 canvas_y = 8;
-WORLDMAP_TILE_SIZE = 48;
+WORLDMAP_TILE_SIZE = 32;
 CANVAS_TILE_SIZE = 64;
 
 function save_world() {
@@ -166,7 +166,7 @@ insert_type = 'ground';
 insert_value = 'default';
 
 
-function draw_minimap(rect_x, rect_y) {
+function draw_minimap(rect_x, rect_y, $scope) {
 var mypixels = Array(0);
 
  function createImage(pixels) {
@@ -195,7 +195,7 @@ var mypixels = Array(0);
             mypixels[h][g] = '#0F0';
         } else if (bg == 'grassland') {
             mypixels[h][g] = '#0F0';
-        } else if (bg == 'water') {
+        } else if (bg == 'water_shallow') {
             mypixels[h][g] = '#00F';
         } else {
             mypixels[h][g] = '#000';
@@ -206,6 +206,8 @@ var mypixels = Array(0);
 
             if (object == 'tree') {
                 mypixels[h][g] = '#107C10';
+            } else if (object == 'rocks') {
+                mypixels[h][g] = '#808080';
             } else if (object == 'river') {
                 mypixels[h][g] = '#00F';
             } else if (object == 'road') {
@@ -214,6 +216,8 @@ var mypixels = Array(0);
         }
     }
   }
+
+    MINIMAP_WIDTH = 300;
 
     var svg = document.getElementById("minimap");
 
@@ -225,19 +229,33 @@ var mypixels = Array(0);
         return pt.matrixTransform(svg.getScreenCTM().inverse());
     }
 
+    var ratio = world.height / world.width;
+    var minimapHeight = Math.floor(ratio*MINIMAP_WIDTH);
+
     svg.addEventListener('click', function(evt){
         var loc = cursorPoint(evt);
-        console.log(loc);
+
+        var new_canvas_x=Math.floor(world.width * loc.x / MINIMAP_WIDTH);
+        var new_canvas_y=Math.floor(world.height * loc.y / minimapHeight);
+
+        if (new_canvas_x <= world.width - VIEWPORT_WIDTH &&
+            new_canvas_y <= world.height - VIEWPORT_HEIGHT) {
+            if (new_canvas_x != canvas_x || new_canvas_y != canvas_y) {
+                canvas_x = new_canvas_x;
+                canvas_y = new_canvas_y;
+                draw_svg(viewport);
+                draw_minimap(canvas_x, canvas_y);
+            }
+        }
     });
 
-    var ratio = world.height / world.width;
-    $("#minimap").attr('width', 300);
-    $("#minimap").attr('height', Math.floor(ratio*300));
+    $("#minimap").attr('width', MINIMAP_WIDTH);
+    $("#minimap").attr('height', minimapHeight);
 
     var minimap2 = svg_node('image', {
         x: 0,
         y: 0,
-        width: 300,
+        width: MINIMAP_WIDTH,
     });
     minimap2.setAttributeNS('http://www.w3.org/1999/xlink', 'href',
         createImage(mypixels));
@@ -398,23 +416,30 @@ angular.module('WhWorld')
         save_world();
     }
 
-    $scope.terrain = {}
-    var groups = {};
+    function get_groups(from) {
+        var groups = [];
+        var by_group = {};
 
-    for (n in DEFAULT_TERRAIN[world.tileset]) {
-        var name = n;
-        var t = DEFAULT_TERRAIN[world.tileset][n];
-        if (!$scope.terrain[t.group]) {
-            $scope.terrain[t.group] = [];
+        for (n in from[world.tileset]) {
+            var t = from[world.tileset][n];
+
+            if (!by_group[t.group]) {
+                by_group[t.group] = [];
+            }
+
+            by_group[t.group].push(n);
+            groups[t.group] = true;
         }
 
-        $scope.terrain[t.group].push(n);
-        groups[t.group] = true;
+        return {
+            groups,
+            by_group
+        }
     }
 
-    $scope.terrain_groups = Object.keys(groups);
+
     $scope.terrain_in_group = [];
-    $scope.selected_group = undefined;
+    $scope.selected_type = "terrain";
 
     $scope.change_group = function() {
         var all = $scope.terrain[$scope.selected_group];
@@ -437,13 +462,28 @@ angular.module('WhWorld')
         $scope.terrain_in_group = table;
     }
 
-    $scope.grounds = ['space', 'water', 'grassland'];
-    $scope.select_ground = function(type) {
-        insert_type = 'ground';
-        insert_value = type;
+    $scope.selected_type = "terrain";
+
+    $scope.change_type = function() {
+        var g = null;
+
+        if ($scope.selected_type == "terrain") {
+            g = get_groups(DEFAULT_TERRAIN);
+        } else {
+            g = get_groups(DEFAULT_GROUNDS);
+        }
+
+        insert_type = $scope.selected_type;
+        $scope.terrain = g.by_group;
+        $scope.terrain_groups = Object.keys(g.groups);
+        $scope.selected_group = $scope.terrain_groups[0];
+        $scope.change_group();
     }
+
+    $scope.change_type();
+
+    $scope.grounds = ['space', 'water', 'grassland'];
     $scope.select_terrain = function(type) {
-        insert_type = 'terrain';
         insert_value = type;
     }
 
@@ -465,8 +505,8 @@ angular.module('WhWorld')
         terrain = {};
         text = null;
 
-        for (var y = base_y; y < base_y + 4; y++) {
-            for (var x = base_x; x < base_x + 4; x++) {
+        for (var y = base_y; y < base_y + WORLD_SCALE; y++) {
+            for (var x = base_x; x < base_x + WORLD_SCALE; x++) {
                 var type = world[y][x].bg.split('_')[0];
                 var object = world[y][x].object;
 
@@ -844,7 +884,7 @@ angular.module('WhWorld')
 
         var selected = valid[Math.floor(Math.random() * valid.length)];
         draw_svg(selected);
-        draw_minimap(selected.x, selected.y);
+        draw_minimap(selected.x, selected.y, $scope);
         console.log();
     }
 })
@@ -861,7 +901,7 @@ angular.module('WhWorld')
     }
 
     $scope.new_world = function() {
-        world = new_world(96, 64);
+        world = new_world(96*2, 64*2);
         world.name = "world #" + Math.floor(Math.random() * 100);
         world.tileset = $scope.selected_tileset;
         save_world();

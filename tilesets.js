@@ -8,6 +8,13 @@ function terrain_object(name, group) {
     }
 }
 
+var DEFAULT_GROUNDS = {
+    fantasy: {
+        grassland: terrain_object("grassland", "grass"),
+        water_shallow: terrain_object("water", "sea"),
+    }
+}
+
 var DEFAULT_TERRAIN = {
     space: {
         rock_1: terrain_object("rock", "rocks")
